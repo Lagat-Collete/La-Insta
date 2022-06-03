@@ -79,7 +79,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': 'insta',
             'USER': 'lagat',
-            'PASSWORD': '12345',
+            'PASSWORD': 'Access',
             'HOST': 'localhost',
             'PORT': '',
     }
@@ -110,7 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Nairobi'
 
 USE_I18N = True
 
