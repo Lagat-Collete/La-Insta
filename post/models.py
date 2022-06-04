@@ -20,10 +20,13 @@ class Profile(models.Model):
     def delete_profile(self):
         self.delete()
 
-
+    @classmethod
+    def search_profiles(cls, search_term):
+        profiles = cls.objects.filter(user__username__icontains=search_term).all()
+        return profiles
    
     def __str__(self):
-       return self.profile
+       return self.user
 
 
 class Image(models.Model):
@@ -41,16 +44,20 @@ class Image(models.Model):
     def delete_image(self):
         self.delete()
 
-
+    @classmethod
+    def search_image(cls, search_term):
+        images = cls.objects.filter(name__icontains=search_term).all()
+        return images
    
     def __str__(self):
        return self.name
 
 
-class Comment(models.Model):
+class Comments(models.Model):
     comment = models.TextField(max_length=500)
     image = models.ForeignKey(Image,on_delete=models.CASCADE)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
+    posted_on = models.DateTimeField(auto_now_add=True)
 
     def save_comment(self):
         self.save()
@@ -58,6 +65,10 @@ class Comment(models.Model):
     def delete_comment(self):
         self.delete()
 
+    @classmethod
+    def display_by_id(cls, image_id):
+        comments = cls.objects.filter(image=image_id)
+        return comments
 
    
     def __str__(self):

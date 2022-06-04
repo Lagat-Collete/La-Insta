@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-2"> </div> 
+    <div class="col-md-8">
+      <img src="{{image.image.url}}" alt="img" class="img-responsive">
+
+    </div>
+    <div class="col-md-2"> </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3"></div>
+     <div class="col-md-6">
+       {% for comment in comments %}
+        <div class="comments">
+          <p>{{comment.name }} <span>{{comment.poasted_on}}</span></p>
+          {{ comment.comment | linebreaks }}
+        </div>
+
+
+       {% endfor %}
+
+     </div>
+    <div class="col-md-3"></div>
+  </div>
+  <div class="col-md-8 card mb-4  mt-3 ">
+    <div class="card-body">
+      {% if new_comment %}
+      <div class="alert alert-success" role="alert">
+        Your comment is awaiting moderation
+      </div>
+      {% else %}
+      <h3>Comment</h3>
+      <form method="post" style="margin-top: 1.3em;">
+        {{ comment_form.as_p }}
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary  btn-lg">Submit</button>
+      </form>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% endblock%}

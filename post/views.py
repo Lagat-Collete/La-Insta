@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from .models import *
-from .forms import  Sign_UpForm
+from .forms import  *
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404,HttpResponseRedirect
 from .email import send_welcome_email
@@ -25,3 +25,23 @@ def signup(request):
   else:
     form = Sign_UpForm()
     return render(request, 'index.html',{'Sign_UpForm':Sign_UpForm})
+
+@login_required(login_url='/accounts/login/')
+def comment_image(request,id):
+    template_name = 'comments.html'
+    image = get_object_or_404(Image, pk=id)
+    comments = image.comments.filter(active=True)
+    new_comment = None
+    if request.method == 'POST':
+       comment_form = CommentForm(data=request.POST)
+       if comment_form.is_valid():
+         new_comment = comment_form.save(commit=False)
+         new_comment.image = image
+         new_comment.save()
+
+    else:
+        comment_form = CommentForm()
+    return render (request, template_name, {'image':image, 'comments':comments,'comment_form':comment_form})
+    
+
+ 
