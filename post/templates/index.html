@@ -1,1 +1,13 @@
-<h2>{{title}}</h2>
+{% extends 'base.html' %} {% load bootstrap4 %} {% load static %} 
+{% block content %}
+
+
+<div>
+  <form  action="{%url 'home'%}" method="post">
+    {%csrf_token%}
+
+    {% bootstrap_form letterForm layout='inline' %}
+    <input type="submit" value="signup">
+  </form>
+</div>
+{% endblock %}
