@@ -1,12 +1,14 @@
 from django.shortcuts import render
 from .models import *
 from .forms import  Sign_UpForm
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404,HttpResponseRedirect
 from .email import send_welcome_email
 
 # Create your views here.
+@login_required(login_url='/accounts/login/')
 def index(request):
-  title = 'home page'
+  
   return render(request, 'index.html',locals())
 
 def signup(request):
