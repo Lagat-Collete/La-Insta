@@ -78,4 +78,16 @@ def like(request, image_id):
   return HttpResponseRedirect(reverse('',args =[image_id]))
 
 
+@login_required(login_url='/accounts/login/')
+def search_profile(request):
+  if 'search_user' in request.GET and request.GET['search_user']:
+  
+        name = request.GET.get("search_user")
+        results = Profile.search_profile(name)
+        message = f'name'
+        search_context= { 'results': results, 'message': message }
+        return render(request, 'search.html', search_context)
+  else:
+      message = "Please search for a valid username"
+  return render(request, 'search.html',{'message': message})
  

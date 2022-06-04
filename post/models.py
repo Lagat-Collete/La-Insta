@@ -10,6 +10,7 @@ from cloudinary.models import CloudinaryField
 # Create your models here.
 
 class Profile(models.Model):
+    name = models.CharField(blank=True, max_length=50)
     profile_photo = CloudinaryField('photo')
     bio = models.TextField()
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -21,8 +22,8 @@ class Profile(models.Model):
         self.delete()
 
     @classmethod
-    def search_profiles(cls, search_term):
-        profiles = cls.objects.filter(user__username__icontains=search_term).all()
+    def search_profile(cls,name):
+        profiles = cls.objects.filter(user__username__icontains=name).all()
         return profiles
    
     def __str__(self):
