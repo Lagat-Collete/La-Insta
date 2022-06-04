@@ -1,3 +1,5 @@
+from audioop import reverse
+from django.forms import ImageField
 from django.shortcuts import get_object_or_404, render
 from .models import *
 from .forms import  *
@@ -8,8 +10,22 @@ from .email import send_welcome_email
 # Create your views here.
 @login_required(login_url='/accounts/login/')
 def index(request):
+  images = Image.objects.all()
+  print('IMG', images)
+  users = User.objects.exclude(id=request.user.id)
+  if request.method =='POST':
+    form = PostForm(request.POST, request.FILES)
+    if form.is_valid():
+      post = form.save(commit=False)
+      post.user = request.user.profile
+      post.save()
+      return HttpResponseRedirect(request.path_info)
+  else:
+    form = PostForm()
+  index_context = {'images':images,'form': form, 'users':users}
+
   
-  return render(request, 'index.html',locals())
+  return render(request, 'index.html',index_context)
 
 def signup(request):
   if request.method == 'POST':
@@ -42,6 +58,24 @@ def comment_image(request,id):
     else:
         comment_form = CommentForm()
     return render (request, template_name, {'image':image, 'comments':comments,'comment_form':comment_form})
-    
+
+
+
+def like(request, image_id):
+  user = request.user
+  image = Image.objects.get(id=image_id)
+  current_likes = image.likes
+  liked = likes.objects.filter(user=user,image=image).count()
+  if not liked:
+    liked = likes.objects.create(user=user, image=image)
+    current_likes = current_likes + 1
+  else:
+    liked = likes.objects.filter(user=user,image=image).delete()
+    current_likes = current_likes - 1
+
+  image.likes =current_likes
+  image.save()
+  return HttpResponseRedirect(reverse('',args =[image_id]))
+
 
  

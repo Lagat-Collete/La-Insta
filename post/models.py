@@ -33,9 +33,8 @@ class Image(models.Model):
     image = CloudinaryField('image')
     name = models.CharField(max_length=30)
     caption = models.CharField(max_length=200)
-    profile = models.ForeignKey(User,on_delete=models.CASCADE)
-    Comments = models.TextField()  
-    likes = models.ManyToManyField(User,related_name=image)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    comments = models.TextField()  
     pup_date = models.DateTimeField(auto_now_add=True)
 
     def save_image(self):
@@ -55,8 +54,8 @@ class Image(models.Model):
 
 class Comments(models.Model):
     comment = models.TextField(max_length=500)
-    image = models.ForeignKey(Image,on_delete=models.CASCADE)
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    image = models.ForeignKey(Image,on_delete=models.CASCADE,related_name='comment')
+    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='comment')
     posted_on = models.DateTimeField(auto_now_add=True)
 
     def save_comment(self):
@@ -77,6 +76,11 @@ class Comments(models.Model):
 class SignUpRecipients(models.Model):
     email = models.EmailField()
 
-
+class likes(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_likes')
+    image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name='image_likes')
+    
+    def __str__(self):
+        return self.image
  
 

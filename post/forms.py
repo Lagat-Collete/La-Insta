@@ -20,9 +20,9 @@ class ProfileForm(forms.ModelForm):
 class CommentForm(forms.ModelForm):
   class Meta:
     model = Comments
-    fields = ('comment')
+    fields = ['comment']
 
-class ImageForm(forms.ModelForm):
+class PostForm(forms.ModelForm):
   class Meta:
     model = Image
-    exclude = ('image','name','caption','comments')
+    fields = ['image','name','caption','comments']
