@@ -1,51 +1,40 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <a class="navbar-brand" href="#">Navbar</a>
-
-  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#">Disabled</a>
-      </li>
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
-  </div>
-  <div class="col-sm-6 col-md-6">
-    {% if user.is_authenticated %}
-    <ul>
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle btn btn-default" data-toggle="dropdown" role="button" aria-expanded="false">Account
-                  <span class="caret"></span>
-              </a>
-        <ul class="dropdown-menu" role="menu">
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-lg">
+  <div class=" container-fluid ">
+    <a class="navbar-brand " id="navbrand " href="{% url 'home' %} "></a>
+    <button class="navbar-toggler " type="button " data-bs-toggle="collapse " data-bs-target="#navbarSupportedContent " aria-controls="navbarSupportedContent " aria-expanded="false " aria-label="Toggle navigation ">
+      <span class="navbar-toggler-icon "></span>
+    </button>
+    <div class="collapse navbar-collapse " id="navbarSupportedContent ">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+        <li class="nav-item ">
+          <form class="mb-0 h1 ml-auto mr-auto" id="searchform" action="{% url 'search' %}">
+            <input  name="search_user" autocomplete="off" id="searching" class="form-control d-md-block" placeholder="Search Username">
+          
+          </form>
+        </li>
+      </ul>
+      <div class="nav-item dropdown">
+        <a href="{% url 'profile' user.username %}"> {{user.profile_photo.url}}</a>
+        <a class="nav-link dropdown-toggle" href="{% url 'profile' user.username %}" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <img src="{{image.user.profile_photo.url}}" class="rounded-circle border m-3" alt="{{image.user.user.username}}">
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
           <li>
-            <a href="{%url 'home'%}">Home</a>
+            <a class="dropdown-item" id="navitems" href="#">Edit Profile</a>
           </li>
           <li>
-            <a href="/accounts/password/change">Change Password</a>
+            <hr class="dropdown-divider">
           </li>
-          <li>
-            <a href="/logout">Logout</a>
-          </li>
+          <li><a class="dropdown-item" id="navitems" href="{% url 'logout' %}">Logout</a></li>
         </ul>
-      </li>
-    </ul>
-    {% else %}
-    <li>
-      <a class='btn btn-default' href="/accounts/register">Register</a>
-    </li>
-
-    {% endif %}
+      </div>
+    </div>
   </div>
 </nav>
+
+
+
+
+
+

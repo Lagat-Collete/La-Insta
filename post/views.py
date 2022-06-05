@@ -3,6 +3,7 @@ from django.forms import ImageField
 from django.shortcuts import get_object_or_404, render
 from .models import *
 from .forms import  *
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404,HttpResponseRedirect
 from .email import send_welcome_email
@@ -91,3 +92,19 @@ def search_profile(request):
       message = "Please search for a valid username"
   return render(request, 'search.html',{'message': message})
  
+@login_required(login_url='/accounts/login/')
+def profile(request, username):
+    images = request.user.profile.images.all()
+    if request.method == 'POST':
+        userform = ProfileForm(request.POST, instance=request.user)
+        profileform = Update_UserForm(request.POST, request.FILES, instance=request.user.profile)
+        if userform.is_valid() and profileform.is_valid():
+            userform.save()
+            profileform.save()
+            return HttpResponseRedirect(request.path_info)
+    else:
+        userform = ProfileForm(instance=request.user)
+        profileform = Update_UserForm(instance=request.user.profile)
+        
+    profile_context = {'userform': userform,'profileform': profileform,'images': images }
+    return render(request, 'profile.html', profile_context)

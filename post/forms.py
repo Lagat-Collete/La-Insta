@@ -17,6 +17,13 @@ class ProfileForm(forms.ModelForm):
     model = Profile
     fields = ('profile_photo','bio','user')
 
+class Update_UserForm(forms.ModelForm):
+    email = forms.EmailField(max_length=100)
+    
+    class Meta:
+      model = User
+      fields = ('username', 'email')
+
 class CommentForm(forms.ModelForm):
   class Meta:
     model = Comments
