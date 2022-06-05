@@ -1,0 +1,38 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="container mt-5">
+  <div class=" row ">
+    <div class="col-md-3 "></div>
+    <div class="col-md-6 ">
+      {% if results %}
+      <h5 class="text-center ">Found {{ results|length }} user{{ results|pluralize }}</h5>
+      {% else %}
+      <h5 class="text-center "> Found 0 user with username <strong>{{message}}</strong></h5>
+
+      
+        <a class="btn btn-info " href="{% url 'home' %} ">Back</a>
+      </a> {% endif %}
+      <hr> {% if results %} {% for profile in results %}
+      <div class="container ">
+        <div class="row ">
+          <div class="col-md-3 ">
+            <img src="{{profile.user.profile.profile_photo.url}} " alt=" " class="rounded-circle border "width="55 " height="55 ">
+          </div>
+          <div class="col-md-6 mt-2 ">
+            <span><strong><a href="{% url 'userprofile' profile.user.username %} ">{{profile.user.username}}</a></strong></span><br>
+            <span class="text-secondary ">{{profile.user.profile.name}}</span>
+          </div>
+          <div class="col-md-3 mt-3 ">
+            <button class="btn btn-sm btn-outline-primary ">follow</button>
+          </div>
+
+        </div>
+      </div>
+      <hr> {% endfor %} {% endif %}
+    </div>
+    <div class="col-md-3 "></div>
+  </div>
+
+</div>
+
+{% endblock %}

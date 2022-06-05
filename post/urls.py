@@ -9,7 +9,8 @@ urlpatterns = [
   path('admin/', admin.site.urls),
   path('',views.index, name = 'home'),
   path('comment/<int:id>/', views.comment_image, name ='comment_image'),
-  path('image/<int:id>/like', views.like, name='like')
+  path('image/<int:id>/like', views.like, name='like'),
+  path('search/', views.search_profile, name='search_name'),
   
 ]
 if settings.DEBUG:
