@@ -53,6 +53,7 @@ class Image(models.Model):
     comments = models.TextField()  
     pup_date = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(User, related_name='likes', blank=True,)
+    slug =models.SlugField(max_length=100)
     
 
     def save_image(self):
