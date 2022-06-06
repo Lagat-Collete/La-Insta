@@ -5,19 +5,19 @@ from django.contrib.auth.models import User
 from .models import Profile,Image,Comments
 from django import forms
 
-class Sign_UpForm(UserCreationForm):
+class RegisterUserForm(UserCreationForm):
   email = forms.EmailField(label='Email')
 
   class Meta:
       model = User
       fields = ('username', 'email', 'password1', 'password2')
 
-class ProfileForm(forms.ModelForm):
+class ImageForm(forms.ModelForm):
   class Meta:
     model = Profile
     fields = ('profile_photo','bio','user')
 
-class Update_UserForm(forms.ModelForm):
+class PostForm(forms.ModelForm):
     email = forms.EmailField(max_length=100)
     
     class Meta:
@@ -29,7 +29,7 @@ class CommentForm(forms.ModelForm):
     model = Comments
     fields = ['comment']
 
-class PostForm(forms.ModelForm):
+class EditProfileForm(forms.ModelForm):
   class Meta:
     model = Image
     fields = ['image','name','caption','comments']

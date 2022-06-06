@@ -41,7 +41,7 @@ class Profile(models.Model):
         return profiles
    
     def __str__(self):
-        return f'{self.user.username} Profile'
+        return self.user
 
 
 
@@ -94,7 +94,7 @@ class Comments(models.Model):
 class SignUpRecipients(models.Model):
     email = models.EmailField()
 
-class likes(models.Model):
+class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_likes')
     image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name='image_likes')
     

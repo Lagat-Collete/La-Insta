@@ -1,111 +1,112 @@
 {% extends 'base.html' %}
- {% load bootstrap3 %} 
- {% load static %} 
+{% load bootstrap4 %}
+{% load static %}
 {% block content %}
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-6 container">
       <div>
-
-      <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-  Post picture </button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Upload photo to Post</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form action=""></form>...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-  {% for image in images %}
-  <div class="card">
-    <div class="card-title">
-      <img src="{{image.user.profile_photo.url}}" alt="{{image.user.user.username}}">
-      <a href="{% url 'userprofile' image.user.user.username %}" user>{{image.user.user.username}}</a>
-    </div>
-    <div class="card-body">
-      <a href="{% url 'comment' image.id %}">
-        <img src="{{ image.image.url }}" style="object-fit: cover;" alt="">
-      </a>
-      <span>{{image.likes}}</span>
-      <p>{{image.caption}}</p>
-    </div>
-      <div>
-      <button class="btn btn-sm" type="submit" name="image_id" value="{{image.id}}">
-      <a href="{% url 'comment' image.id %}"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
-      </button>
-      <button class="btn btn-sm" type="submit"><a href="{% url 'comment' image.id %}"><i class="fa fa-heart-o" aria-hidden="true"></i>
-    </button>
-      </div>
-
-      <span class=""><strong>{{image.likes.count}} like{{image.likes.count|pluralize}}</strong></span>
-      <span ><a href="{% url 'comment' image.id %}"> view all {{image.comments.count}} comment{{image.comments.count|pluralize}}</a></span>
-      <div class="allcomments mb-4">
-        {% for comment in image.comments.all %}
-        <div class="comment">
-          <div class="ml-4"><strong>{{ comment.user.user.username }}</strong> <span>{{ comment.comment }}</span>
-          </div>
-        </div>
-        {% empty %} {% endfor %}
-        <p class="ml-4">{{image.created|timesince}}</p>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-  <div class="col-md-4">
-    <div class="row">
-      <div class="col-md-3 ml-2">
-        <img class="rounded-circle user-img" src="{{ user.profile.profile_photo.url }}">
-      </div>
-      <div class="col-md-6 mt-4 user-detail">
-        <span>
-        <a href="{% url 'userprofile' user.username %}">{{ user.username }}</a></span> <br>
-        <span>{{ user.profile.name }}</span>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-10">
-        <div class="card mt-4">
-          <div class="card-title mt-2 ">Submission</div>
-          {% for user in users %}
-          <div class="container">
-            <div class="row">
-              <div class="col-md-2 mr-3">
-                <img class="rounded-circle" src="{{ user.profile.profile_photo.url }}">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+          Post picture </button>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+          aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Upload photo to Post</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
               </div>
-              <div class="col-md-6 mt-2">
-                <span><a href="{% url 'userprofile' user.username  %}">{{user.username}}</a></span>
+              <div class="modal-body">
+                <form action=""></form>...
               </div>
-              <div class="col-md-4">
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
               </div>
             </div>
+          </div>
+        </div>
+        {% for image in images %}
+        <div class="card">
+          <div class="card-title">
+            <img src="{{image.user.profile_photo.url}}" alt="{{image.user.user.username}}">
+            <a href="{% url 'userprofile' image.user.user.username %}" user>{{image.user.user.username}}</a>
+          </div>
+          <div class="card-body">
+            <a href="{% url 'comment' image.id %}">
+              <img src="{{ image.image.url }}" style="object-fit: cover;" alt="">
+            </a>
+            <span>{{image.likes}}</span>
+            <p>{{image.caption}}</p>
+          </div>
+          <div>
+            <button class="btn btn-sm" type="submit" name="image_id" value="{{image.id}}">
+              <a href="{% url 'comment' image.id %}"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+            </button>
+            <button class="btn btn-sm" type="submit"><a href="{% url 'comment' image.id %}"><i class="fa fa-heart-o"
+                  aria-hidden="true"></i>
+            </button>
+          </div>
+
+          <span class=""><strong>{{image.likes.count}} like{{image.likes.count|pluralize}}</strong></span>
+          <span><a href="{% url 'comment' image.id %}"> view all {{image.comments.count}}
+              comment{{image.comments.count|pluralize}}</a></span>
+          <div class="allcomments mb-4">
+            {% for comment in image.comments.all %}
+            <div class="comment">
+              <div class="ml-4"><strong>{{ comment.user.user.username }}</strong> <span>{{ comment.comment }}</span>
+              </div>
+            </div>
+            {% empty %} {% endfor %}
+            <p class="ml-4">{{image.created|timesince}}</p>
           </div>
           {% endfor %}
         </div>
       </div>
-      <div class="col-md-2"></div>
+      <div class="col-md-4">
+        <div class="row">
+          <div class="col-md-3 ml-2">
+            <img class="rounded-circle user-img" src="{{ user.profile.profile_photo.url }}">
+          </div>
+          <div class="col-md-6 mt-4 user-detail">
+            <span>
+              <a href="{% url 'userprofile' user.username %}">{{ user.username }}</a></span> <br>
+            <span>{{ user.profile.name }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-10">
+            <div class="card mt-4">
+              <div class="card-title mt-2 ">Submission</div>
+              {% for user in users %}
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-2 mr-3">
+                    <img class="rounded-circle" src="{{ user.profile.profile_photo.url }}">
+                  </div>
+                  <div class="col-md-6 mt-2">
+                    <span><a href="{% url 'userprofile' user.username  %}">{{user.username}}</a></span>
+                  </div>
+                  <div class="col-md-4">
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="col-md-2"></div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
 
-<!-- <div>
+  <!-- <div>
   <form  action="{%url 'home'%}" method="post">
     {%csrf_token%}
 
@@ -113,4 +114,4 @@
     <input type="submit" value="signup">
   </form>
 </div> -->
-{% endblock %}
+  {% endblock %}

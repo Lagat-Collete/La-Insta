@@ -1,4 +1,5 @@
 from audioop import reverse
+from imaplib import _Authenticator
 from django.forms import ImageField
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import *
@@ -9,75 +10,123 @@ from django.http import HttpResponse, Http404,HttpResponseRedirect
 from .email import send_welcome_email
 
 # Create your views here.
-@login_required(login_url='/accounts/login/')
+
+def home_page(request):
+    return render(request,'home_page.html')
+
+
+@login_required
 def index(request):
-  images = Image.objects.all()
-  users = User.objects.exclude(id=request.user.id)
-  if request.method =='POST':
-    form = CommentForm(request.POST, request.FILES)
-    if form.is_valid():
-     comment = form.save(commit=False)
-     comment.user = request.user.profile
-     comment.save()
-     form = CommentForm()
-    return HttpResponseRedirect(request.path_info)
-  else:
+    images = Image.objects.all()
+    current_user = request.user
     form = CommentForm()
-  index_context = {'images':images,'form': form, 'users':users}
+    if request.method =='POST':
+        if 'postComment' in request.POST:
+            form = CommentForm(request.POST)
+            comment = form.save(commit=False)
+            comment.author = current_user
+            comment.save()
+            
+    
+    return render(request, 'index.html', {'images':images, 'form':form})
 
-  
-  return render(request, 'index.html',index_context)
 
-def signup(request):
-  if request.method == 'POST':
-     form = Sign_UpForm(request.POST)
-     if form.is_valid():
-       email = form.cleaned_data['email']
-       recipient = SignUpRecipients(email=email)
-       recipient.save()
-       send_welcome_email(email)
-       HttpResponseRedirect('signup')
-       
 
-  else:
-    form = Sign_UpForm()
-    return render(request, 'index.html',{'Sign_UpForm':Sign_UpForm})
-
-@login_required(login_url='/accounts/login/')
-def comment_image(request,id):
-    template_name = 'comments.html'
-    image = get_object_or_404(Image, pk=id)
-    comments = image.comments.filter(active=True)
-    new_comment = None
+def register(request):
     if request.method == 'POST':
-       comment_form = CommentForm(data=request.POST)
-       if comment_form.is_valid():
-         new_comment = comment_form.save(commit=False)
-         new_comment.image = image
-         new_comment.save()
+        
+        form = RegisterUserForm(request.POST)
+        if form.is_valid():
+            form.save()
 
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            email = form.cleaned_data['email']
+            send_welcome_email(username,email)
+            
+            #authenticate and login user
+            user = _Authenticator(username = username,password=password)
+            login(request,user)
+            return redirect('home')
+            
     else:
-        comment_form = CommentForm()
-    return render (request, template_name, {'image':image, 'comments':comments,'comment_form':comment_form})
+        form = RegisterUserForm()
+        
+    return render(request,'registration/registration_form.html', {'form':form})
 
 
 
-def like(request, image_id):
-  user = request.user
-  image = Image.objects.get(id=image_id)
-  current_likes = image.likes
-  liked = likes.objects.filter(user=user,image=image).count()
-  if not liked:
-    liked = likes.objects.create(user=user, image=image)
-    current_likes = current_likes + 1
-  else:
-    liked = likes.objects.filter(user=user,image=image).delete()
-    current_likes = current_likes - 1
+@login_required
+def post(request):
+    if request.method == 'POST':
+      current_user = request.user
+      form = ImageForm(request.POST, request.FILES)
+      if form.is_valid():
+          post = form.save(commit=False)
+          post.user = current_user
+          post.save()
+      return redirect('home')
+          
+    else:
+        form = ImageForm()
+        
+    return render(request,'post.html', {'form':form})
 
-  image.likes =current_likes
-  image.save()
-  return HttpResponseRedirect(reverse('',args =[image_id]))
 
+
+@login_required
+def like_post(request, post_id):
+    post = get_object_or_404(Image,id = post_id)
+    like = Like.objects.filter(image = post ,user = request.user).first()
+    if like is None:
+        like = Like()
+        like.post = post
+        like.user = request.user
+        like.save()
+    else:
+        like.delete()
+    return redirect('home')
+
+
+
+@login_required
+def user_profile(request,username):
+    user = User.objects.filter(username=username).first()
+    if user == request.user:
+        return redirect('profile',username = user.username)
+    profile = get_object_or_404(Profile,id = user.id)
+    images = Image.objects.filter(author=user)
+    return render(request, 'userprofile.html', {'user': user,'profile':profile,'images':images})
+
+
+
+@login_required
+def profile(request,username):
+    user = request.user
+    user = User.objects.filter(username=user.username).first()
+    images = Image.objects.filter(author=user)
+    return render(request, 'profile.html', {'user': user,'images':images})
+
+
+
+
+@login_required
+def edit_profile(request,username):
+    user = request.user
+    user = User.objects.filter(username=user.username).first()
+    profile = get_object_or_404(Profile,user=user)
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            profileform = form.save(commit=False)
+            profileform.user = user
+            profileform.save()
+        return redirect('profile',username =user.username)
+           
+    else:
+        form = EditProfileForm()
+    
+    return render(request, 'edit_profile.html', {'form':form, 'user': user})
 
 @login_required(login_url='/accounts/login/')
 def search_profile(request):
@@ -92,30 +141,22 @@ def search_profile(request):
       message = "Please search for a valid username"
   return render(request, 'search.html',{'message': message})
  
-@login_required(login_url='/accounts/login/')
-def profile(request, username):
-    images = request.user.profile.images.all()
-    if request.method == 'POST':
-        userform = ProfileForm(request.POST, instance=request.user)
-        profileform = Update_UserForm(request.POST, request.FILES, instance=request.user.profile)
-        if userform.is_valid() and profileform.is_valid():
-            userform.save()
-            profileform.save()
-            return HttpResponseRedirect(request.path_info)
-    else:
-        userform = ProfileForm(instance=request.user)
-        profileform = Update_UserForm(instance=request.user.profile)
-        
-    profile_context = {'userform': userform,'profileform': profileform,'images': images }
-    return render(request, 'profile.html', profile_context)
 
 
-@login_required(login_url='/accounts/login/')
-def  user_profile(request,username):
-  userprofile = get_object_or_404(User, username=username)
-  if request.user == userprofile:
-    return redirect('profile', username=request.user.username)
-  user_posts = userprofile.profile.posts.all()
+def signout(request):
+    logout(request)
+    return redirect('home')
 
-  userprofile_context = {'userprofile':userprofile,'user_posts':user_posts}
-  return render(request, 'userprofile.html', userprofile_context)
+
+
+
+
+
+
+
+
+
+
+
+
+

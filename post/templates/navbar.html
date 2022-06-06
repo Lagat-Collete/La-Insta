@@ -1,40 +1,62 @@
-{% load static %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-lg">
-  <div class=" container-fluid ">
-    <a class="navbar-brand " id="navbrand " href="{% url 'home' %} "></a>
-    <button class="navbar-toggler " type="button " data-bs-toggle="collapse " data-bs-target="#navbarSupportedContent " aria-controls="navbarSupportedContent " aria-expanded="false " aria-label="Toggle navigation ">
-      <span class="navbar-toggler-icon "></span>
-    </button>
-    <div class="collapse navbar-collapse " id="navbarSupportedContent ">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
-        <li class="nav-item ">
-          <form class="mb-0 h1 ml-auto mr-auto" id="searchform" action="{% url 'search' %}">
-            <input  name="search_user" autocomplete="off" id="searching" class="form-control d-md-block" placeholder="Search Username">
-          
-          </form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="{% url 'home' %}">Instagram</a>
+    </div>
+    <div class="navbar-header">
+      <a class="navbar-brand" href="{% url 'admin:index'%}">Admin</a>
+    </div>
+    <!-- Adding search form -->
+    <div class="col-sm-4 col-md-4 navbar-right">
+      <form action="{% url 'search' %}" class="navbar-form" role="search">
+
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search Username" name="search">
+          <div class="input-group-btn">
+            <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!-- search form end -->
+
+    <div class="col-sm-6 col-md-6">
+      {% if user.is_authenticated %}
+      <ul>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle btn btn-default" data-toggle="dropdown" role="button" aria-expanded="false">Account
+                    <span class="caret"></span>
+                </a>
+          <ul class="dropdown-menu" role="menu">
+            <li>
+              <a href="{%url 'home' %}">Home</a>
+            </li>
+            <li>
+              <a href="/logout">Logout</a>
+            </li>
+          </ul>
         </li>
       </ul>
-      <div class="nav-item dropdown">
-        <a href="{% url 'profile' user.username %}"> {{user.profile_photo.url}}</a>
-        <a class="nav-link dropdown-toggle" href="{% url 'profile' user.username %}" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <img src="{{image.user.profile_photo.url}}" class="rounded-circle border m-3" alt="{{image.user.user.username}}">
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <li>
-            <a class="dropdown-item" id="navitems" href="#">Edit Profile</a>
-          </li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
-          <li><a class="dropdown-item" id="navitems" href="{% url 'logout' %}">Logout</a></li>
-        </ul>
-      </div>
+      {% else %}
+      <li>
+        <a class='btn btn-default' href="/accounts/login">Login</a> 
+      </li>
+      <li>
+     <a  class='btn btn-outline' href="/accounts/register">Register</a>
+      </li>
+
+      {% endif %}
     </div>
+
   </div>
 </nav>
-
-
-
-
-
-
+</body>
+</html>
