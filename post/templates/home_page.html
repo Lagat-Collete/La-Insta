@@ -1,6 +1,35 @@
-{% extends 'base.html' %} {% load bootstrap4 %} {% load static %} 
+ {% load bootstrap4 %} {% load static %} 
 {% block content %}
-<div class="container">
-  
-</div>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InstaClone</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
+  {% block styles %} {% bootstrap_css %}
+  <link rel="stylesheet" href="{% static 'css/home_page.css' %}">{% endblock %}
+</head>
+
+<body>
+  <div class="container">
+    <div class="account">
+      <a class="btn btn-outline-primary"  href="{% url 'register' %}">Create Account</a>
+    </div>
+    <div>
+      <img src="{% static 'images/insta.jpeg' %} " alt=" Istagram Logo">
+      <h1>Welcome to InstaClone</h1>
+      <p>Your passion is capturing great moments. So is ours.share captured moments with your friends</p>
+      <a  href="{% url 'login' %}" class="btn btn-outline-primary">Login </a>
+    </div>
+    {% block scripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js "></script>
+    {% bootstrap_javascript %} {% endblock %}
+  </div>
+</body>
+
+</html>
 {% endblock %}

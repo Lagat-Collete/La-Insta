@@ -10,7 +10,9 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
-    path('', views.index, name='home'),
+    path('admin/', admin.site.urls),
+    path('',views.home_page, name='home_page'),
+    path('index/', views.index, name='home'),
     path('accounts/register/', views.register, name='register'),
     path('post/', views.post, name='post'),
     path('userprofile/<username>', views.user_profile, name='user_profile'),
@@ -19,6 +21,7 @@ urlpatterns = [
     path('post/<int:post_id>/like', views.like_post, name='like'),
     path('signout/', views.signout, name='signout'),
     path('search/', views.search_profile, name='search'),
+    path('', include('django.contrib.auth.urls')),
 ]
 
 

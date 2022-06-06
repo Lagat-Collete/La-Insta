@@ -1,4 +1,4 @@
-{% load bootstrap3 %}
+{% load bootstrap4 %}
 {% load static %}
 <!DOCTYPE html>
 <html>
@@ -13,9 +13,12 @@
   <title>{{title}}</title>
 
   {%endif%}
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
 
   {% block styles %}
     {% bootstrap_css %}
+    <link rel="stylesheet" href="{% static 'css/registration.css' %}">
+    
   {% endblock %}
 
 </head>
