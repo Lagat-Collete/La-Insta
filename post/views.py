@@ -1,6 +1,6 @@
 from audioop import reverse
 from django.forms import ImageField
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from .models import *
 from .forms import  *
 from django.contrib.auth.models import User
@@ -12,17 +12,17 @@ from .email import send_welcome_email
 @login_required(login_url='/accounts/login/')
 def index(request):
   images = Image.objects.all()
-  print('IMG', images)
   users = User.objects.exclude(id=request.user.id)
   if request.method =='POST':
-    form = PostForm(request.POST, request.FILES)
+    form = CommentForm(request.POST, request.FILES)
     if form.is_valid():
-      post = form.save(commit=False)
-      post.user = request.user.profile
-      post.save()
-      return HttpResponseRedirect(request.path_info)
+     comment = form.save(commit=False)
+     comment.user = request.user.profile
+     comment.save()
+     form = CommentForm()
+    return HttpResponseRedirect(request.path_info)
   else:
-    form = PostForm()
+    form = CommentForm()
   index_context = {'images':images,'form': form, 'users':users}
 
   
@@ -108,3 +108,14 @@ def profile(request, username):
         
     profile_context = {'userform': userform,'profileform': profileform,'images': images }
     return render(request, 'profile.html', profile_context)
+
+
+@login_required(login_url='/accounts/login/')
+def  user_profile(request,username):
+  userprofile = get_object_or_404(User, username=username)
+  if request.user == userprofile:
+    return redirect('profile', username=request.user.username)
+  user_posts = userprofile.profile.posts.all()
+
+  userprofile_context = {'userprofile':userprofile,'user_posts':user_posts}
+  return render(request, 'userprofile.html', userprofile_context)

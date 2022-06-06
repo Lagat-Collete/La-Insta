@@ -5,8 +5,12 @@ from django_summernote.admin import SummernoteModelAdmin
 
 class CommentAdmin(SummernoteModelAdmin):
     summernote_fields = ('comment',)
+class ImageAdmin(SummernoteModelAdmin):
+    summernote_fields = ('comments')
+class ProfileAdmin(SummernoteModelAdmin):
+    summernote_fields = ('bio')
 
 # Register your models here.
-admin.site.register(Image)
-admin.site.register(Profile)
+admin.site.register(Image,ImageAdmin)
+admin.site.register(Profile,ProfileAdmin)
 admin.site.register(Comments,CommentAdmin)

@@ -1,4 +1,6 @@
-{% extends 'base.html' %} {% load bootstrap3 %} {% load static %} 
+{% extends 'base.html' %}
+ {% load bootstrap3 %} 
+ {% load static %} 
 {% block content %}
 <div class="container-fluid">
   <div class="row">
@@ -38,8 +40,8 @@
     </div>
     <div class="card-body">
       <a href="{% url 'comment' image.id %}">
-        <img src="{{% image.image.url%}}" style="object-fit: cover;" alt="">
-      </a.>
+        <img src="{{ image.image.url }}" style="object-fit: cover;" alt="">
+      </a>
       <span>{{image.likes}}</span>
       <p>{{image.caption}}</p>
     </div>
