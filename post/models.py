@@ -18,7 +18,7 @@ class Profile(models.Model):
     name = models.CharField(blank=True, max_length=50)
     profile_photo = CloudinaryField('photo')
     bio = models.TextField()
-    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='profile')
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def save_profile(self):
         self.save()
@@ -45,12 +45,10 @@ class Profile(models.Model):
 
 
 
-class Image(models.Model):
+class Post(models.Model):
     image = CloudinaryField('image')
-    name = models.CharField(max_length=30)
     caption = models.CharField(max_length=200)
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
-    comments = models.TextField()  
+    author = models.ForeignKey(User,on_delete=models.CASCADE)  
     pup_date = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(User, related_name='likes', blank=True,)
     slug =models.SlugField(max_length=100)
@@ -73,8 +71,8 @@ class Image(models.Model):
 
 class Comments(models.Model):
     comment = models.TextField(max_length=500)
-    image = models.ForeignKey(Image,on_delete=models.CASCADE,related_name='comment')
-    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='comment')
+    post = models.ForeignKey(Post,on_delete=models.CASCADE,related_name='comment')
+    author = models.ForeignKey(User,on_delete=models.CASCADE,related_name='comment')
     posted_on = models.DateTimeField(auto_now_add=True)
 
     def save_comment(self):
@@ -97,7 +95,7 @@ class SignUpRecipients(models.Model):
 
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_likes')
-    image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name='image_likes')
+    image = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='image_likes')
     
     def __str__(self):
         return self.image

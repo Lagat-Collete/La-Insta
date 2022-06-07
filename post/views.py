@@ -16,9 +16,11 @@ def home_page(request):
     return render(request,'home_page.html')
 
 
+
+
 @login_required
 def index(request):
-    images = Image.objects.all()
+    images = Post.objects.all()
     current_user = request.user
     form = CommentForm()
     if request.method =='POST':
@@ -61,7 +63,7 @@ def register(request):
 def post(request):
     if request.method == 'POST':
       current_user = request.user
-      form = ImageForm(request.POST, request.FILES)
+      form = PostForm(request.POST, request.FILES)
       if form.is_valid():
           post = form.save(commit=False)
           post.user = current_user
@@ -69,7 +71,7 @@ def post(request):
       return redirect('home')
           
     else:
-        form = ImageForm()
+        form = PostForm()
         
     return render(request,'post.html', {'form':form})
 
@@ -77,7 +79,7 @@ def post(request):
 
 @login_required
 def like_post(request, post_id):
-    post = get_object_or_404(Image,id = post_id)
+    post = get_object_or_404(Post,id = post_id)
     like = Like.objects.filter(image = post ,user = request.user).first()
     if like is None:
         like = Like()
@@ -96,7 +98,7 @@ def user_profile(request,username):
     if user == request.user:
         return redirect('profile',username = user.username)
     profile = get_object_or_404(Profile,id = user.id)
-    images = Image.objects.filter(author=user)
+    images = Post.objects.filter(author=user)
     return render(request, 'userprofile.html', {'user': user,'profile':profile,'images':images})
 
 
@@ -105,7 +107,7 @@ def user_profile(request,username):
 def profile(request,username):
     user = request.user
     user = User.objects.filter(username=user.username).first()
-    images = Image.objects.filter(author=user)
+    images = Post.objects.filter(author=user)
     return render(request, 'profile.html', {'user': user,'images':images})
 
 
