@@ -41,7 +41,7 @@ class Profile(models.Model):
         return profiles
    
     def __str__(self):
-        return self.user
+        return str(self.user)
 
 
 
@@ -66,11 +66,11 @@ class Post(models.Model):
         return images
    
     def __str__(self):
-       return self.name
+       return self.caption
 
 
 class Comments(models.Model):
-    comment = models.TextField(max_length=500)
+    comment = models.TextField(max_length=50)
     post = models.ForeignKey(Post,on_delete=models.CASCADE,related_name='comment')
     author = models.ForeignKey(User,on_delete=models.CASCADE,related_name='comment')
     posted_on = models.DateTimeField(auto_now_add=True)
@@ -98,6 +98,6 @@ class Like(models.Model):
     image = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='image_likes')
     
     def __str__(self):
-        return self.image
+        return '{} by {}'.format(self.image, self.user)
  
 

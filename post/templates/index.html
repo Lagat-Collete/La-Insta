@@ -2,32 +2,48 @@
 {% load bootstrap4 %}
 {% load static %}
 {% block content %}
-{% for %}
+
+    {% for image in images %}
+    <div class="card w-50 m-auto">
+        <h3 class="card-header">
+            <a href="/profile/{{image.author.username}}">
+                {% if image.author.profile.profile_photo %}
+                <div class="profile-icon">
+                    <img src="{{image.author.profile.profile_photo.url}}" alt="">
+                </div>
+                {% endif %}
+                <div class="">
+                    <h5>{{ image.author.username }}</h5>
+                </div>
+            </a>
+        </h3>
+        <div class="card-body">
+            <img src="{{ image.image.url }}" alt="">
+            <h3 class="card-title"><a href="{% url 'like' image.id %}"><i class="fas fa-heart m-2 text-danger"></i></a><i class="far fa-comment m-2"></i></h3>
+            <p class="card-text"> <b>{{ image.author.username }}</b>{{ image.caption }}</p>
+            <p>{{ image.likes.count}} likes</p>
+            <span class="text-muted"> <a href="/singlepost/{{post.id}}">
+                {%if image.comments.all|length > 0%}
+                view all  {{image.comments.all|length}} comments
+                {% else %}
+                No comments yet click to add!
+                {% endif %}
+            </a></span>
+        </div>
+        <div class="card-footer">
+            <form action="{% url 'singlepost' image.id%}" method="POST">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+            
+               <a href="http://"><input type="submit" class="btn btn-primary btn-sm" value="Post" name = 'postComment disabled'></a>
+          
+            </form>
+        </div>
+    </div>
+    {% endfor %}
 
 {% endblock %}
 
-<!-- 
-  
- -->
-<!-- <div class="container">
-  <div class="row">
-    <div class="col-md-4"></div>
-    <div class="col-md-4">
-      {% for image in images %}
-      <img src="{{image.image.url}}" alt="">
-      <a href="{% url 'comment' image.id %}"></a>
-      {% endfor %}
-    </div>
-    <div class="col-md-4"></div>
-  </div>
 
-</div>  -->
-<!-- <div>
-  <form  action="{%url 'home'%}" method="post">
-    {%csrf_token%}
 
-    {% bootstrap_form form  layout='inline' %}
-    <input type="submit" value="signup">
-  </form>
-</div> -->
-<!-- {% endblock %} -->
+

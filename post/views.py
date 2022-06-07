@@ -33,6 +33,26 @@ def index(request):
     
     return render(request, 'index.html', {'images':images, 'form':form})
 
+@login_required
+def single_post(request, post_id):
+    post =  get_object_or_404(Post,id = post_id)
+    comments = Comment.objects.filter(post=post).all()
+    current_user = request.user
+    
+    if request.method =='POST':
+        form = CommentForm(request.POST)
+        
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.author = current_user
+            
+            comment.post = post
+            comment.save()
+        return redirect('singlepost',post_id=post.id)
+    else:
+        
+        form = CommentForm()
+    return render(request, 'singlepost.html', {'post': post, 'form':form, 'comments':comments})
 
 
 def register(request):
@@ -43,14 +63,14 @@ def register(request):
             form.save()
 
             username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
+            password = form.cleaned_data['password1']
             email = form.cleaned_data['email']
             send_welcome_email(username,email)
             
-            #authenticate and login user
-            user = _Authenticator(username = username,password=password)
+            authenticate and login 
+            user = authenticate(username = username, password=password)
             login(request,user)
-            return redirect('home')
+            return redirect('index')
             
     else:
         form = RegisterUserForm()
