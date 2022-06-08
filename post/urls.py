@@ -24,6 +24,7 @@ urlpatterns = [
     path('', include('django.contrib.auth.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('singlepost/<int:post_id>', views.single_post, name='singlepost'),
+   
 ]
 if settings.DEBUG:
     urlpatterns+= static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

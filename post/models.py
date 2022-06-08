@@ -99,5 +99,8 @@ class Like(models.Model):
     
     def __str__(self):
         return '{} by {}'.format(self.image, self.user)
+
+
+
  
 

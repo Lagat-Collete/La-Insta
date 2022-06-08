@@ -2,6 +2,7 @@ from audioop import reverse
 from imaplib import _Authenticator
 from django.forms import ImageField
 from django.shortcuts import get_object_or_404, redirect, render
+import requests
 from .models import *
 from .forms import  *
 from django.contrib.auth.models import User
@@ -61,19 +62,18 @@ def register(request):
 
             username = form.cleaned_data['username']
             password = form.cleaned_data['password1']
-            email = form.cleaned_data['email']
-            send_welcome_email(username,email)
+            # email = form.cleaned_data['email']
+            # send_welcome_email(username,email)
             
             authenticate and login 
             user = authenticate(username = username, password=password)
             login(request,user)
-            return redirect('index')
+            return redirect('home')
             
     else:
         form = RegisterUserForm()
         
     return render(request,'registration/registration_form.html', {'form':form})
-
 
 
 @login_required

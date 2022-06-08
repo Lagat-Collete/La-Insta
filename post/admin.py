@@ -14,3 +14,4 @@ class ProfileAdmin(SummernoteModelAdmin):
 admin.site.register(Post,PostAdmin)
 admin.site.register(Profile,ProfileAdmin)
 admin.site.register(Comments,CommentAdmin)
+
