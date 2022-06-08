@@ -62,8 +62,8 @@ def register(request):
 
             username = form.cleaned_data['username']
             password = form.cleaned_data['password1']
-            # email = form.cleaned_data['email']
-            # send_welcome_email(username,email)
+            email = form.cleaned_data['email']
+            send_welcome_email(username,email)
             
             authenticate and login 
             user = authenticate(username = username, password=password)

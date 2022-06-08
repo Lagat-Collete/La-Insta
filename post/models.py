@@ -50,7 +50,6 @@ class Post(models.Model):
     caption = models.CharField(max_length=200)
     author = models.ForeignKey(User,on_delete=models.CASCADE)  
     pup_date = models.DateTimeField(auto_now_add=True)
-    likes = models.ManyToManyField(User, related_name='likes', blank=True,)
     slug =models.SlugField(max_length=100)
     
 
