@@ -9,7 +9,7 @@
             <a href="/profile/{{image.author.username}}">
                 {% if image.author.profile.profile_photo %}
                 <div class="profile-icon">
-                    <img src="{{image.author.profile.profile_photo.url}}" alt="">
+                    <img src="{{image.author.profile.profile_photo.url}}" class="rounded-circle border mt-2 " alt="">
                 </div>
                 {% endif %}
                 <div class="">
@@ -18,7 +18,7 @@
             </a>
         </h3>
         <div class="card-body">
-            <img src="{{ image.image.url }}" alt="">
+            <img src="{{ image.image.url }}"  class="rounded-circle border mt-2 " alt="">
             <h3 class="card-title"><a href="{% url 'like' image.id %}"><i class="fas fa-heart m-2 text-danger"></i></a><i class="far fa-comment m-2"></i></h3>
             <p class="card-text"> <b>{{ image.author.username }}</b>{{ image.caption }}</p>
             <p>{{ image.likes.count}} likes</p>

@@ -1,5 +1,4 @@
  {% load bootstrap4 %} {% load static %} 
-{% block content %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -11,11 +10,13 @@
   <title>InstaClone</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
   {% block styles %} {% bootstrap_css %}
-  <link rel="stylesheet" href="{% static 'css/home_page.css' %}">{% endblock %}
+  <link rel="stylesheet" href="{% static 'css/home_page.css' %}">
+  {% endblock %}
 </head>
 
 <body>
   <div class="container">
+    {% block content %}
     <div class="account">
       <a class="btn btn-outline-primary"  href="{% url 'register' %}">Create Account</a>
     </div>
@@ -30,8 +31,7 @@
     {% block scripts %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js "></script>
     {% bootstrap_javascript %} {% endblock %}
+  {% endblock%}
   </div>
 </body>
-
 </html>
-{% endblock %}
