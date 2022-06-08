@@ -83,7 +83,7 @@ def post(request):
       form = PostForm(request.POST, request.FILES)
       if form.is_valid():
           post = form.save(commit=False)
-          post.user = current_user
+          post.author = current_user
           post.save()
       return redirect('home')
           
@@ -100,7 +100,7 @@ def like_post(request, post_id):
     like = Like.objects.filter(image = post ,user = request.user).first()
     if like is None:
         like = Like()
-        like.post = post
+        like.image = post
         like.user = request.user
         like.save()
     else:

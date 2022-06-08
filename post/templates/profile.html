@@ -2,9 +2,9 @@
 {% block content %}
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-6 m-auto">
         {% if profile.profile_photo %}
-        <img src="{{ profile.profile_photo.url}}" class="rounded-circle border mt-2 "alt="{{profile.name}}">
+        <img src="{{ profile.profile_photo.url}}" class="rounded-circle border mt-2 " alt="{{profile.name}}">
         {% else %}
         <i style="font-size:100px;color:#1d1c1c" class="fa fa-user" aria-hidden="true"></i>
         {% endif %}
@@ -17,16 +17,17 @@
         <p>No bio yet</p>
         {% endif %}
         <i class="fas fa-cog"><a href="/profile/{{user.username}}/edit"> Edit</a></i>
-        
+
     </div>
 </div>
 <hr>
+<h2 class="text-center">Posts</h2>
 <div class="row">
-    <h2>Posts</h2>
+
     {% for image in images%}
-    <div class="card w-50">
+    <div class="card m-3">
         <img src="{{ image.image.url}}" alt="">
-    </div>    
+    </div>
     {% endfor %}
 </div>
 {% endblock %}

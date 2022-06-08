@@ -50,7 +50,7 @@ class Post(models.Model):
     caption = models.CharField(max_length=200)
     author = models.ForeignKey(User,on_delete=models.CASCADE)  
     pup_date = models.DateTimeField(auto_now_add=True)
-    slug =models.SlugField(max_length=100)
+    name = models.CharField(max_length=50)
     
 
     def save_image(self):
@@ -65,7 +65,7 @@ class Post(models.Model):
         return images
    
     def __str__(self):
-       return self.caption
+       return self.name
 
 
 class Comments(models.Model):
@@ -80,21 +80,14 @@ class Comments(models.Model):
     def delete_comment(self):
         self.delete()
 
-    @classmethod
-    def display_by_id(cls, image_id):
-        comments = cls.objects.filter(image=image_id)
-        return comments
-
    
     def __str__(self):
        return self.comment
 
-class SignUpRecipients(models.Model):
-    email = models.EmailField()
 
 class Like(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_likes')
-    image = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='image_likes')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    image = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='likes')
     
     def __str__(self):
         return '{} by {}'.format(self.image, self.user)
