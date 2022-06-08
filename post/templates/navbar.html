@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<nav class="navbar navbar-inverse bg-#B2DFFC">
+<nav class="navbar navbar-expand-lg navbar-light bg-secondary">
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand" href="{% url 'home' %}">Instagram</a>
@@ -19,7 +19,7 @@
       <form action="{% url 'search' %}" class="navbar-form" role="search">
 
         <div class="input-group">
-          <input type="text" class="form-control" placeholder="Search Username" name="search">
+          <input type="text" class="form-control p-4" placeholder="Search Username" name="search">
           <div class="input-group-btn">
             <button class="btn btn-default" type="submit"><i class="fas fa-search"></i></button>
           </div>
@@ -32,7 +32,7 @@
       {% if user.is_authenticated %}
       <ul>
         <li class="nav-item">
-          
+          <a class="nav-link" href="/post"> Add Post</a>
         </li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle btn btn-default" data-toggle="dropdown" role="button" aria-expanded="false">Account

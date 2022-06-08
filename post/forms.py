@@ -12,24 +12,23 @@ class RegisterUserForm(UserCreationForm):
       model = User
       fields = ('username', 'email', 'password1', 'password2')
 
-class PostForm(forms.ModelForm):
+class EditProfileForm(forms.ModelForm):
   class Meta:
     model = Profile
     fields = ('profile_photo','bio','user')
 
-class PostForm(forms.ModelForm):
-    email = forms.EmailField(max_length=100)
-    
-    class Meta:
-      model = User
-      fields = ('username', 'email')
 
 class CommentForm(forms.ModelForm):
+  comment = forms.CharField()
+
   class Meta:
     model = Comments
     fields = ['comment']
+    widgets = {
+            Comment: forms.Textarea(attrs={'rows':1, 'cols':15}),
+        }
 
-class EditProfileForm(forms.ModelForm):
+class PostForm(forms.ModelForm):
   class Meta:
     model = Post
     fields = ['image','caption']

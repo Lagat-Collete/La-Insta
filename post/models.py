@@ -70,7 +70,7 @@ class Post(models.Model):
 
 
 class Comments(models.Model):
-    comment = models.TextField(max_length=50)
+    comment = models.CharField(max_length=200)
     post = models.ForeignKey(Post,on_delete=models.CASCADE,related_name='comment')
     author = models.ForeignKey(User,on_delete=models.CASCADE,related_name='comment')
     posted_on = models.DateTimeField(auto_now_add=True)

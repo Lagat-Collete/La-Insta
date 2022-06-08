@@ -6,6 +6,8 @@ img{
   margin-top: auto;
   margin-bottom: auto;
 }
+
+
 h1 ,p{
   text-align: center;
 }
@@ -17,4 +19,5 @@ a{
 } */
 .account{
   float: right;
+  margin-top: 10px;
 }

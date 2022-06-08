@@ -4,11 +4,13 @@
 
 
 <div class="container">
+  
     <h2>New Post</h2>
-    <form action="" method="post" enctype="multipart/form-data">
+    <form class="w-50" action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {% bootstrap_form form %}
         <input type="submit" class="btn btn-success btn-sm" value="POST">
     </form>
 </div>
+
 {% endblock %}

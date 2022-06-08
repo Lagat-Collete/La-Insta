@@ -36,16 +36,13 @@ def index(request):
 @login_required
 def single_post(request, post_id):
     post =  get_object_or_404(Post,id = post_id)
-    comments = Comment.objects.filter(post=post).all()
-    current_user = request.user
-    
+    comments = Comments.objects.filter(post=post).all()
+    current_user = request.user 
     if request.method =='POST':
         form = CommentForm(request.POST)
-        
         if form.is_valid():
             comment = form.save(commit=False)
-            comment.author = current_user
-            
+            comment.author = current_user 
             comment.post = post
             comment.save()
         return redirect('singlepost',post_id=post.id)
