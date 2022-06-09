@@ -5,6 +5,15 @@
 
 ### By : **Jepngetich Lagat**
 
+### Home-page
+![Screenshot from 2022-06-09 14-24-31](https://user-images.githubusercontent.com/94686368/172838629-3a0d1b11-6d9a-49fe-8abb-0ab5840604ba.png)
+
+### Login-page
+![Screenshot from 2022-06-09 14-26-20](https://user-images.githubusercontent.com/94686368/172838869-c51c2d58-cbfc-4db5-b708-8234a40f68d6.png)
+
+### Profile-page
+![Screenshot from 2022-06-09 14-46-32](https://user-images.githubusercontent.com/94686368/172839540-53c16361-f566-4b4e-aba9-1c0ea422b00b.png)
+
 ### Project Cloning instructions
 
 1. Open your terminal
@@ -21,7 +30,8 @@
 
 ### Usage Instruction
 
- 1. Open your browser (preferably google chrome and active internet connection is required.) click this [link](https://lagat-gallery.herokuapp.com/)
+ 1. Open your browser (preferably google chrome and active internet connection is required.) click this [link](![Uploading image.png…]()
+)
  2. Create account and log in to use the application
  3. Depending on your needs you can easily maneuver around the page as everything is label.
 
