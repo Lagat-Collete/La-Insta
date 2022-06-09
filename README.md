@@ -1,7 +1,7 @@
 # La-Insta
  This is a django website clone application that resemble the popular photo app Instagram, a user can register, follow friends ,share photos, views other shared pictures and comment on those shared photos.
 
-### latest version  May/20222
+### latest version  June/20222
 
 ### By : **Jepngetich Lagat**
 
