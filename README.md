@@ -27,11 +27,9 @@
 8. Edit the code
 9. Use `python3 manage.py` to test the application
 
-
 ### Usage Instruction
 
- 1. Open your browser (preferably google chrome and active internet connection is required.) click this [link](![Uploading image.png…]()
-)
+ 1. Open your browser (preferably google chrome and active internet connection is required.) click this [link](https://lagat-insta.herokuapp.com/)
  2. Create account and log in to use the application
  3. Depending on your needs you can easily maneuver around the page as everything is label.
 
